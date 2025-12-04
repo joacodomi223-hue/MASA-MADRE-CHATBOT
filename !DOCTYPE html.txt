@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Masa Madre – Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Estilos -->
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #FFF6E9;
+      margin: 0;
+      padding: 0;
+      color: #4A3A2B;
+    }
+
+    header {
+      background-color: #EED9C4;
+      padding: 30px 20px;
+      text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1604908812557-274ad45c6325');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-shadow: 0px 2px 6px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 48px;
+      font-weight: 700;
+    }
+
+    .sub {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .contenedor {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    /* DISEÑO DE LA BURBUJA DEL CHAT */
+    #chatbot {
+      border: 3px solid #C19A6B;
+      border-radius: 15px;
+      padding: 15px;
+      background-color: white;
+      min-height: 400px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+    }
+
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .msg {
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .user {
+      background-color: #F4D7B5;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .bot {
+      background-color: #E8E0D2;
+    }
+
+    #input-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #C19A6B;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #C19A6B;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background-color: #966F44;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Masa Madre</h1>
+  <div class="sub">Panadería artesanal – Atención automática</div>
+</header>
+
+<div class="contenedor">
+  <h2>💬 Chatbot de Atención</h2>
+  <p>Haz tu consulta: precios, productos, promociones y pedidos.</p>
+
+  <div id="chatbot">
+    <div id="messages"></div>
+
+    <div id="input-area">
+      <input id="userInput" type="text" placeholder="Escribe tu mensaje...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT SCRIPT (FUNCIONA SOLO) -->
+<script>
+  const messages = document.getElementById("messages");
+
+  function botReply(text) {
+    let msg = document.createElement("div");
+    msg.className = "msg bot";
+    msg.innerHTML = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
+    if (text === "") return;
+
+    let msg = document.createElement("div");
+    msg.className = "msg user";
+    msg.textContent = text;
+    messages.appendChild(msg);
+
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
+
+    setTimeout(() => {
+      botReply( getResponse(text) );
+    }, 700);
+  }
+
+  function getResponse(msg) {
+    msg = msg.toLowerCase();
+
+    if (msg.includes("hola") || msg.includes("buenas")) {
+      return "¡Hola! Soy el asistente de Masa Madre 🥖 ¿En qué puedo ayudarte?";
+    }
+
+    if (msg.includes("menu") || msg.includes("productos") || msg.includes("pan")) {
+      return `
+      Estos son nuestros productos artesanales:<br><br>
+      🥖 Pan campesino – S/ 8<br>
+      🥐 Croissant de mantequilla – S/ 6<br>
+      🍞 Pan de masa madre – S/ 10<br>
+      🍪 Galletas artesanales – S/ 4<br>
+      🧁 Muffins – S/ 5`;
+    }
+
+    if (msg.includes("promocion") || msg.includes("promo")) {
+      return `
+      Promociones de hoy:<br><br>
+      ⭐ 2 croissants + 1 café por S/ 12<br>
+      ⭐ Pan familiar 2x1 desde las 5pm`;
+    }
+
+    if (msg.includes("horario") || msg.includes("abren")) {
+      return "Nuestro horario es de lunes a domingo, 7:00 AM a 9:00 PM.";
+    }
+
+    if (msg.includes("pedido") || msg.includes("delivery")) {
+      return "Puedes hacer pedidos por aquí mismo 🎉 ¿Qué producto deseas llevar?";
+    }
+
+    return "No entendí muy bien 😅 ¿Puedes repetirlo?";
+  }
+</script>
+
+</body>
+</html>
